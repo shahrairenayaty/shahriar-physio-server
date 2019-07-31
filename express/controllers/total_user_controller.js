@@ -152,8 +152,7 @@ module.exports = {
     logMessage="validateMyInfo"
     myLog.startLog(logMessage,'=')
     console.log(JSON.stringify(req.body,null,2))
-    req.getValidationResult()
-      .then(()=>{
+    
         const {myInfo} = req.body
         if(myInfo){
           console.log('myInfo is okey')
@@ -164,11 +163,7 @@ module.exports = {
           passedMessageToHandelMethod = 'myInfo key does not exist in req.body'
           hendelElseCantFind(req,passedMessageToHandelMethod,null,99904,next,logMessage)
         }
-      })
-      .catch((error)=>{
-        passedMessageToHandelMethod = 'somethig goes wrong in validation myInfo or req.body'
-        hendelElseCantFind(req,passedMessageToHandelMethod,error,99921,next,logMessage)
-      })
+     
       //#region
       //#endregion
   }

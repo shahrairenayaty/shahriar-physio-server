@@ -9,12 +9,12 @@ mongoose.Promise = global.Promise;
 mongoose.set('useFindAndModify', false);
 
 if(process.env.NODE_ENV!=="test"){
-  const mongodbUrl = process.env.MONGODB_URL
+  const mongodbUrl = process.env.MONGODB_URL || "mongodb://127.0.0.1:27017/physioDB"
   mongoose.connect(mongodbUrl,{ useNewUrlParser: true });
 }
 try {
   app.use(bodyParser.json());
-  app.use(expressValidator());
+  // app.use(expressValidator());
   app.use("/profilePic",express.static("profilePic"))
   routes(app);
   app.use((err,req,res,next)=>{
