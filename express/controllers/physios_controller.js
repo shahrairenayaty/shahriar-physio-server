@@ -1,8 +1,6 @@
 //require("../../models/exercise");
 //require("../../models/movement");
 const MyLog = require("../../myLog")
-const { check, validationResult } = require('express-validator/check');
-const { body }  = require('express-validator/check')
 const Physio    = require("../../models/physios");
 const Patient   = require("../../models/patient");
 const Visit     = require("../../models/visit")

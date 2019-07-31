@@ -25,7 +25,6 @@ app.post('/user', (req, res) => {
 });
 
 // ...rest of the initial code omitted for simplicity.
-const { check, validationResult } = require('express-validator/check');
 
 app.post('/user', [
   // username must be an email

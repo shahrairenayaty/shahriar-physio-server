@@ -1,7 +1,6 @@
 const PhysioController = require("../controllers/physios_controller");
 const PatientController = require("../controllers/patient_controller");
 const TotalUserController = require("../controllers/total_user_controller")
-const { check, validationResult } = require('express-validator/check');
 const multer    = require("multer");
 const storage = multer.diskStorage({
   destination:function(req,file,cb){
