@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const bodyParser = require ("body-parser");
-const expressValidator = require('express-validator')
 const routes = require ( "./express/routes/routes");
 
 const app = express();
