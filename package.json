@@ -15,10 +15,13 @@
     "supertest": "^3.3.0"
   },
   "devDependencies": {
+    "env-cmd": "^9.0.3",
     "mocha": "^5.2.0"
   },
   "scripts": {
-    "test": "set NODE_ENV=test & nodemon --exec \"mocha --recursive -R min\""
+    "start": "node index.js",
+    "test": "set NODE_ENV=test & nodemon --exec \"mocha --recursive -R min\"",
+    "dev": "./node_modules/.bin/env-cmd -f ./config/dev.env nodemon index.js"
   },
   "author": "",
   "license": "ISC"

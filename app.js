@@ -9,7 +9,8 @@ mongoose.Promise = global.Promise;
 mongoose.set('useFindAndModify', false);
 
 if(process.env.NODE_ENV!=="test"){
-  mongoose.connect("mongodb://localhost/physioDB",{ useNewUrlParser: true });
+  const mongodbUrl = process.env.MONGODB_URL
+  mongoose.connect(mongodbUrl,{ useNewUrlParser: true });
 }
 try {
   app.use(bodyParser.json());
