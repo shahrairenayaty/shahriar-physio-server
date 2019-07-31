@@ -1,6 +1,6 @@
 require("../../models/exercise");
 require("../../models/movement");
-const MyLog = require("../../mylog")
+const MyLog = require("../../myLog")
 const Patient = require("../../models/patient");
 const Visit = require("../../models/visit");
 const crypto = require("crypto");
