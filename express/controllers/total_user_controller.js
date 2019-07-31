@@ -1,4 +1,4 @@
-const MyLog = require("../../mylog")
+const MyLog = require("../../myLog")
 const Movement  = require("../../models/movement");
 
 const myLog = new MyLog(100);
