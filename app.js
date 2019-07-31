@@ -14,6 +14,9 @@ if(process.env.NODE_ENV!=="test"){
 try {
   app.use(bodyParser.json());
   // app.use(expressValidator());
+  app.get('/',(req,res)=>{
+    res.send("امیدوار باش! تا وقتی چشمی هس ک باهات اشک می ریزه می تونی رنج زندگی رو تحمل کنی.")
+  })
   app.use("/profilePic",express.static("profilePic"))
   routes(app);
   app.use((err,req,res,next)=>{
