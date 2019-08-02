@@ -8,7 +8,7 @@ mongoose.Promise = global.Promise;
 mongoose.set('useFindAndModify', false);
 
 if(process.env.NODE_ENV!=="test"){
-  const mongodbUrl = process.env.MONGODB_URL || "mongodb://127.0.0.1:27017/physioDB"
+  const mongodbUrl = process.env.MONGODB_URL || "mongodb+srv://shahriar:Shahriar1376@test-rb6ed.mongodb.net/test?retryWrites=true"
   mongoose.connect(mongodbUrl,{ useNewUrlParser: true });
 }
 try {

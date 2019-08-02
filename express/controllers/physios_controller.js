@@ -390,8 +390,6 @@ module.exports = {
   ,validatePhysioToken(req,res,next){ //is there any physio with this token? if yes => send just id of physio to the next controller in req.myServer.physio
     logMessage = "validate physio token"
     myLog.startLog(logMessage,"=")
-    req.getValidationResult()
-      .then(()=>{
         const token = req.params.mainToken;
         //console.log("physio token= "+token);
         Physio.getPhysioIdByToken(token)
@@ -412,21 +410,8 @@ module.exports = {
             hendelElseCantFind(req,passedMessageToHandelMethod,error,99901,next,logMessage)
           })
       // #endregion handel getPhysioIdByToken
-      })
-      .catch((error)=>{ // for getValidationResult
-        passedMessageToHandelMethod = 'somethig goes wrong in validation req.body,please check variabel'
-        hendelElseCantFind(req,passedMessageToHandelMethod,error,99902,next,logMessage)
-        // //res.send({name:"somethig goes wrong in validation body,plz check variabel",error:error.toString})
-        // req.myServer={};
-        // req.myServer.customError = "somethig goes wrong in validation body,plz check variabel";
-        // req.myServer.error = error;
-        // req.myServer.id = [];
-        // req.myServer.id.push(99902)
-        // myLog.endLog("validate physio token","="  )
-        // next(req);
-      })
-
-  }
+      }
+  
   ,validateVisitId(req,res,next){     //is there any visit with this id ? if yes  => send total of that visit to the next controller
       logMessage = "validateVisitId"
       myLog.startLog(logMessage,"=")

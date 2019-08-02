@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 before(done=>{
-  mongoose.connect("mongodb://localhost/physioDB",{ useNewUrlParser: true });
+  mongoose.connect("mongodb+srv://shahriar:Shahriar1376@test-rb6ed.mongodb.net/test?retryWrites=true",{ useNewUrlParser: true });
   mongoose.connection
     .once("open",()=>done())
     .on("error",(error)=>{

@@ -64,7 +64,7 @@ describe("testing physios modeld",()=>{
       )
       .catch(()=>done());
   });
-  it("login physio successful",(done)=>{
+  it.only("login physio successful",(done)=>{
     request(app)
     .post("/api/physio/login")
     .send({
@@ -73,12 +73,14 @@ describe("testing physios modeld",()=>{
     }
     })
     .end((err,res)=>{
-      assert(res.body.myServer.id[0]===10006);
-      assert(res.body.myServer.id[1]===10007);
-      assert(res.body.myServer.id[2]===10010);
-      done();
-    })
+      console.log(res.body.myServer.id)
+      assert(res.body.myServer.id[0]===10025)
+      assert(res.body.myServer.id[1]===10006);
+      assert(res.body.myServer.id[2]===10007);
+      assert(res.body.myServer.id[3]===10010);
       //done();
+    })
+      done();
 
   });
   it("login physio wrong number",(done)=>{
