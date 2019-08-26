@@ -29,7 +29,7 @@ const Person = require('../../models/person')
 
 
 
-router.post('/users',auth,type,access,myValidator.createUser,ifExist,async (req, res) => {
+router.post('/users',myValidator.createUser,ifExist,async (req, res) => {
     // req.type;
     try {
         const user = new Person(req.body);
