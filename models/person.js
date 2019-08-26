@@ -36,6 +36,9 @@ const PersonSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    address:{
+        type:String
+    },
     PhoneModel: [{
         name: {
             type: String

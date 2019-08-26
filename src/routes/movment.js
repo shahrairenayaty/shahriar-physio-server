@@ -54,8 +54,7 @@ router.get('/movements/videos/:name', auth, async function (req, res) {
         var fileName = req.params.name;
         const movement = await Movement.findOne({
             "videos.name": fileName,
-            "videos.status": true,
-            complete: false
+            "videos.status": true
         })
         if (!movement) {
             return res.send(consts.CreateError(req.error, 4000021, "movement name is wrong or deleted"))
@@ -290,10 +289,25 @@ router.get("/movements/update/:id", auth, myValidator.movementId, myValidator.mo
 })
 
 //just for test
-router.get('/organ',async(req,res)=>{
+router.get('/organs',auth,async(req,res)=>{
+    try {
         const organs = await Movement.getAllOrgan();
+        res.send(organs)
+    } catch (error) {
+        res.status(500).send(consts.CreateError(req.error,4000054,"some thing happened during find organs",error))
+    }
+        
+})
+
+router.get('/joints',auth,async(req,res)=>{
+    try {
         const joint = await Movement.getJoints(req.query.organ)
-        res.send({joint})
+        res.send(joint)
+    } catch (error) {
+        res.status(500).send(consts.CreateError(req.error,4000055,"some thing happened during find joints",error))
+
+    }
+    
 })
 
 router.get("/movements",auth,access(0b01100),async(req,res)=>{
@@ -327,9 +341,42 @@ router.get("/movements",auth,access(0b01100),async(req,res)=>{
     if(req.query.id){
         match._id = req.query.id
     }
+    if(req.query.name){
+        match["name"] = {"$regex":req.query.name,"$options":"i"}
+    }
     try {
-        const result= await Movement.find(match) 
-        res.send({result,match})
+        const result= await Movement.find(match).select({createBy:0,complete:0,edits:0,updateStatus:0,updateBy:0})
+        const finalResult = []
+        result.forEach(element => {
+            const videos = []
+            const voices = []
+            const pics= []
+            element.videos.forEach(element => {
+                if(element.status==true){
+                    videos.push(element.name)
+                }
+            });
+            element.pics.forEach(element => {
+                if(element.status==true){
+                    pics.push(element.name)
+                }
+            });
+            element.voices.forEach(element => {
+                if(element.status==true){
+                    voices.push(element.name)
+                }
+            });
+            const  resultObject = element.toObject()
+            delete resultObject.videos
+            delete resultObject.pics
+            delete resultObject.voices 
+            resultObject.videos = videos
+            resultObject.pics= pics
+            resultObject.voices = voices
+            finalResult.push(resultObject)
+        });
+        
+        res.send(finalResult)
     } catch (error) {
         res.status(500).send(consts.CreateError(req.error,4000036,"something happened during finding movement tha match queries",error))
     }

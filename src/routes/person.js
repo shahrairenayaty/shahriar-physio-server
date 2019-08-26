@@ -32,14 +32,21 @@ const Person = require('../../models/person')
 router.post('/users',auth,type,access,myValidator.createUser,ifExist,async (req, res) => {
     // req.type;
     try {
-        const person = new Person(req.body);
-        person.type = req.type
-        await person.save()
+        const user = new Person(req.body);
+        user.type = req.type
+        await user.save()
         // sendWelcomeEmail(user.email,user.name)
-        const token = await person.generateAuthToken(req.type)
+        const token = await user.generateAuthToken(req.type)
         res.status(201).send({
-            person,
-            token
+           name:user.name,
+        family:user.family,
+        idNation:user.idNation,
+        mobiles:user.mobiles,
+        address:user.address,
+        birthday:user.birthday,
+        _id:user._id,
+        type:req.type,
+        token
         })
     } catch (error) {
         res.status(400).send(consts.CreateError(req.error,4000002,"an error occur during person creating",error))
@@ -62,11 +69,15 @@ try{
     await user.updatePhoneModelAndAppVersion(req.body.phoneModel,req.body.appVersion,token);
     
     return res.send({
-        user,
+        name:user.name,
+        family:user.family,
+        idNation:user.idNation,
+        _id:user._id,
+        type:req.type,
         token
     })
 }catch(error){
-    return res.status(400).send(consts.CreateError(req.error,4000007,"something is happanded during login",error))
+    return res.status(500).send(consts.CreateError(req.error,4000007,"something is happanded during login",error))
 }
    
 })
@@ -131,8 +142,12 @@ router.get('/users',auth,async (req,res)=>{
     }
 
     try {
-        const result= await Person.find(match) 
-        res.send({result,match})
+        const result= await Person.find(match).select({name:1,family:1,idNation:1,mobiles:1,address:1,birthday:1})
+        if(result.length<=0){
+        return res.status(400).send(consts.CreateError(req.error,4000053,"cant find user with this info",undefined,"کاربری با این مشخصات یافت نشد","there isn't user with this information"))
+ 
+        } 
+        res.send(result)
     } catch (error) {
         res.status(500).send(consts.CreateError(req.error,4000052,"some thing happened during get person that match with query",error))
     }

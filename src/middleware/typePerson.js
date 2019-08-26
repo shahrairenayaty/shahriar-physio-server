@@ -1,7 +1,7 @@
 const consts = require('../G/consts');
 const type = (req, res, next) => {
     if (!req.query.type) {
-        return res.status(400).send(consts.CreateError(req.error, 4000000, "type dose not definded in url of create user"))
+        return res.status(500).send(consts.CreateError(req.error, 4000000, "type dose not definded in url of create user"))
 
     }
     var type = req.query.type + ""
@@ -26,7 +26,7 @@ const type = (req, res, next) => {
         }
         next();
     } else {
-        res.status(400).send(consts.CreateError(req.error, 4000001, "type definded in url of create user is wrong"))
+        res.status(500).send(consts.CreateError(req.error, 4000001, "type definded in url of create user is wrong"))
     }
 
 }

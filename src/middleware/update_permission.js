@@ -24,14 +24,14 @@ const updatePermissionOfExitUser = async (req, res, next) => {
         query["Permissions."+req.type+".registryDate"] = Date.now()
         
         // console.log(JSON.stringify(user,undefined,2))
-        if(user.Permissions[req.type].status===true){
+        if(user.Permissions[req.type].status===true||user.name!==req.body.name||user.family!==req.body.family||user.idNation!==req.body.idNation){
             return res.status(400).send(consts.CreateError(
                                                         req.error,
                                                         4000005,
                                                         "user have this permission",
                                                         undefined,
-                                                        "کاربری با این مشخصات وجود دارد",
-                                                        "there is a user with this inforamtion."
+                                                        "کاربری با این شماره یا کد ملی وجود دارد",
+                                                        "there is a user with this number or id nation."
                                                         ),
                                         )
         }

@@ -20,6 +20,12 @@ router.post('/exercises/:id', auth, access(0b01100), myValidator.visitId, myVali
         req.visit.result.exercises = totalExercise;
         // console.log(JSON.stringify(req.visit, undefined, 2))
         await req.visit.save();
+        // req.visit.result.exercises.forEach(element => {
+        //     element.date = undefined
+        //     element.setDone = undefined
+        //     element.isCheck = undefined
+        //     element.
+        // });
         res.send(req.visit);
     } catch (error) {
         res.status(500).send(consts.CreateError(req.error, 4000043, "some thing happened during add exercise to visit", error))

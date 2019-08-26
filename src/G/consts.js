@@ -31,7 +31,8 @@ const CreateError = (format, id,reason, serverMessage=undefined,CMIR=E_something
         format.serverMessage = serverMessage;
     }
     
-
+    console.log(format);
+    
     return format;
 
 }

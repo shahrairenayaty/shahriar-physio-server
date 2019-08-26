@@ -24,7 +24,7 @@ try {
     const send ={};
     send.message="some thing goes wrong";
     //console.log(JSON.stringify(req,undefined,2));
-    console.log(req.myServer);
+    // console.log(req.myServer);
     if(req.myServer){
       if(req.myServer.physio){
         if(req.myServer.physio.password){

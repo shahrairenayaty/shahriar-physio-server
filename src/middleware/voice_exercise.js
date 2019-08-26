@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
   }
 });
 const fileFilter = (req,file,cb)=>{
-    if (!file.originalname.match(/\.(mp3)$/)) {
+    if (!file.originalname.match(/\.(mp3|wav)$/)) {
         return cb(new Error('Please upload an mp3'))
     }
     cb(undefined, true)

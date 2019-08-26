@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken")
 const consts = require('../G/consts')
 
 const createAccess = (user)=>{
-    debugger
     user.access = 0b0
     if(user.Permissions.physio.status===true){
         user.access+=0b01000
@@ -21,6 +20,7 @@ const createAccess = (user)=>{
 
 const auth = async (req,res,next)=>{    
     try {
+        // console.log(req.header('Authorization'))
         const token = req.header('Authorization').replace('Bearer ','')
         const decoded = jwt.verify(token,process.env.JWT_SECRET)
         const user = await Person.findOne({_id:decoded._id,"tokens.token":token})

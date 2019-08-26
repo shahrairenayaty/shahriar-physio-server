@@ -22,7 +22,7 @@ const createUser = (req, res, next) => {
         const titleSet = new Set(title)
         req.numbers = numbers
         if (numbers.length !== numbersSet.size) {
-            return res.status(400).send(consts.CreateError(req.error, 4000003, "duplicate phone number"))
+            return res.status(400).send(consts.CreateError(req.error, 4000003, "duplicate phone number",undefined,"شماره تماس تکراری است","duplicate number"))
 
         }
         if (title.length !== titleSet.size) {
@@ -167,7 +167,7 @@ const exercises = async (req, res, next) => {
             return true
 
         }));
-        console.log(isEveryThingGood)
+        // console.log(isEveryThingGood)
         if (isEveryThingGood) {
             req.exercises = exercises
             next()

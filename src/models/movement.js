@@ -128,17 +128,23 @@ MovementSchema.statics.getAllOrgan = async function () {
 }
 
 MovementSchema.statics.getJoints = async function(organ){
-    const allMovement= await Movement.find({complete:true,"category.organ":organ})
+    var allMovement =[]
+    if(organ===undefined){
+         allMovement= await Movement.find({complete:true})
+    }else{
+         allMovement= await Movement.find({complete:true,"category.organ":organ})
+    }
+    
     const joints = []
-    console.log(JSON.stringify(allMovement.length,undefined,2))
+    // console.log(JSON.stringify(allMovement.length,undefined,2))
     allMovement.forEach(element => {
         element.category.forEach(element => {
             joints.push(element.joint) 
         });
     });
-    console.log(joints)
+    // console.log(joints)
     var uniqueJoints = new Set(joints) 
-    console.log(uniqueJoints)
+    // console.log(uniqueJoints)
 
     return  Array.from(uniqueJoints);
 }
