@@ -40,7 +40,7 @@ const movementId = async (req, res, next) => {
     try {
         const movement = await Movement.findById(req.params.id)
         if (!movement) {
-            res.status(400).send(consts.CreateError(req.erro, 4000017, "can't find movement with this id", undefined, "حرکتی که انتخاب کرده اید مشکل دارد. لطفا با پشتیبانی تماس بگیرید.", "the movement you have chosen has problem pleas contact to supprot team."))
+            return res.status(400).send(consts.CreateError(req.erro, 4000017, "can't find movement with this id", undefined, "حرکتی که انتخاب کرده اید مشکل دارد. لطفا با پشتیبانی تماس بگیرید.", "the movement you have chosen has problem pleas contact to supprot team."))
         }
         req.movement = movement;
         next()
@@ -54,7 +54,7 @@ const movementUpdate = async (req, res, next) => {
     if (req.movement && req.movement.complete === false && req.movement.updateStatus === "checking") {
         return next()
     } else {
-        return res.send(consts.CreateError(req.error, 4000026, "cant update this movement", "send back to server"))
+        return res.status(404).send(consts.CreateError(req.error, 4000026, "cant update this movement", "send back to server"))
     }
 
 }
@@ -130,7 +130,7 @@ const exercises = async (req, res, next) => {
             throw new Error('body must be array of exercise')
         }
         await Promise.all(exercises.map(async (element, index) => {
-            const movementId = element.movementId
+            const movementId = element.movement
             const movement = await Movement.findById(movementId)
             if (!movement || movement === null) {
                 isEveryThingGood = false
@@ -185,7 +185,8 @@ const exercise = async (req, res, next) => {
     try {
         var errorMessage = ''
         const exercise = req.body
-        const movementId = exercise.movementId
+        const movementId = exercise.movement
+        // console.log("yesssssssssssssssssssss")
         const movement = await Movement.findById(movementId)
         if (!movement || movement === null) {
             throw new Error(errorMessage)

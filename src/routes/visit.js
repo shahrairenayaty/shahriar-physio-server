@@ -41,6 +41,13 @@ router.delete('/visits/:id',auth,access(0b01100),myValidator.visitId,async(req,r
 router.get('/visits',auth,async(req,res)=>{
     const match = {}
     const date={}
+    const sort = {}
+
+    if(req.query.sortBy){
+        const parts = req.query.sortBy.split(':')
+        sort[parts[0]] = parts[1] ==='-1' ? -1 :1 
+    }
+
     if(req.query.physio){
         match.physio=req.query.physio
     }
@@ -68,8 +75,9 @@ router.get('/visits',auth,async(req,res)=>{
             date["$lt"] = req.query.endDate
             match.dateOfVisit = date
         }
-        const visits = await Visits.find(match)
-        res.send({visits,match})
+        const visits = await Visits.find(match).sort(sort).limit(parseInt(req.query.limit)).populate({path:"result.exercises.movement"})
+        
+        res.send(visits)
 
     } catch (error) {
         res.status(500).send(consts.CreateError(req.error,4000040,"some thing happened during get visits",error))
@@ -77,6 +85,8 @@ router.get('/visits',auth,async(req,res)=>{
     
     
 })
+
+
 
 router.patch('/visits/:id',auth,access(0b01100),myValidator.visitId,async(req,res)=>{
     try {

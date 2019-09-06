@@ -16,7 +16,14 @@ const uploadVoice = require('../middleware/voice')
 
 router.post('/movements', auth, access(0b01000), async (req, res) => {
     try {
+        req.body._id = undefined
+        req.body.category.forEach(element => {
+            element._id = undefined
+        });
+        // console.log("body= "+JSON.stringify(req.body,undefined,2))
         const movement = new Movement(req.body)
+        movement._id = undefined
+        // console.log("movement= "+JSON.stringify(movement,undefined,2))
         const t = (req.user.type).toString()
 
         movement.createBy = {
@@ -31,9 +38,10 @@ router.post('/movements', auth, access(0b01000), async (req, res) => {
 
 })
 
-router.post('/movements/:id/film', auth, myValidator.movementId, access(0b01100), upload.single('film'), async (req, res) => {
+router.post('/movements/videos/:id', auth, myValidator.movementId, myValidator.movementUpdate,access(0b01100), upload.single('video'), async (req, res) => {
     try {
         const movement = req.movement;
+        console.log(JSON.stringify("file = "+req.file,undefined,2))
         movement.videos.push({
             name: req.file.filename
         })

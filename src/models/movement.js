@@ -97,6 +97,7 @@ const MovementSchema = new Schema({
     updateStatus: {
         type: String,
         enum: ["reject", "checking", "accept", "finish"],
+        default:"checking"
     },
     updateBy:{
         type: Schema.Types.ObjectId,

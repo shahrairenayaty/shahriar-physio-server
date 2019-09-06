@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
 const ExerciseSchema = new Schema({
-  movementId: {
+  movement: {
     type: Schema.Types.ObjectId,
     ref: "movementN",
     required: true

@@ -1,23 +1,20 @@
 const multer    = require("multer");
+const path = require('path')
+
 const storage = multer.diskStorage({
   destination:function(req,file,cb){
     cb(null,"./upload/videos")
-  },
+  }
+  ,
   filename: function(req,file,cb){
-    cb(null, req.movement.name+"-"+Date.now()+'.mp4')
+    cb(null, req.movement.name+"-"+Date.now()+path.extname(file.originalname))
   }
 });
 const fileFilter = (req,file,cb)=>{
-  //rejact file
-  if(file.mimetype==="video/mp4"){
-    //accsepted file
-    cb(null,true);
-  }else {
-    cb(null,false);
-  }
-
-
-
+  if (!file.originalname.match(/\.(mp4)$/)) {
+    return cb(new Error('Please upload an mp4'))
+}
+cb(undefined, true)
 };
 const upload    = multer({
   storage:storage,
