@@ -121,6 +121,7 @@ VisitSchema.methods.toJSON = function () {
   visitObject.result.exercises.forEach(exercise => {
     // console.log("exercise movement.video= " + JSON.stringify(exercise, null, 2))
     const recordvoices=[]
+    console.log("exerscie= "+JSON.stringify(exercise,null,2))
     exercise.voices.forEach(element => {
       if (element.status == true) {
         recordvoices.push(element.name)
