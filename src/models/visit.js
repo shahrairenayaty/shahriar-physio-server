@@ -122,16 +122,16 @@ VisitSchema.methods.toJSON = function () {
     // console.log("exercise movement.video= " + JSON.stringify(exercise, null, 2))
     const recordvoices=[]
     
-    exercise.voices.forEach(element => {
-      if (element.status == true) {
-        console.log("1= "+JSON.stringify(element,null,2))
-        recordvoices.push(element.name)
+    exercise.voices.forEach(voice => {
+      if (voice.status == true) {
+        console.log("1= "+JSON.stringify(voice,null,2))
+        recordvoices.push(voice.name)
       }
     });
     delete exercise.voices
     exercise.voices = recordvoices
     if (exercise.movement.name===undefined) {
-      console.log("2= "+JSON.stringify(element,null,2))
+      // console.log("2= "+JSON.stringify(element,null,2))
       return visitObject
     }
     console.log("yes")
