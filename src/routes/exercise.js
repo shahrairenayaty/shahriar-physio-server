@@ -161,13 +161,18 @@ router.get('/exercises',auth,async(req,res)=>{
     try {
         if(req.query.startDate){
             const date={}
-            date["$gte"] = req.query.startDate
+            if(req.query.startDateStart){
+                date["$gte"] = req.query.startDateStart
+            }
+            if(req.query.startDateEnd){
+                date["$lte"] = req.query.startDateEnd
+            }
             match["result.exercises.date.start"] = date
         }
         if(req.query.endDate){
             const date={}
             date["$lt"] = req.query.endDate
-            match["result.exercises.date.start"] = date
+            match["result.exercises.date.end"] = date
         }
         const result= await Visit.find(match) 
         res.send({result,match})
