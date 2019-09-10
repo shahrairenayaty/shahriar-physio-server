@@ -166,7 +166,7 @@ router.get('/exercises',auth,async(req,res)=>{
             }
             if(req.query.startDateEnd){
                 date["$lte"] = req.query.startDateEnd
-            }git 
+            }
             match["result.exercises.date.start"] = date
         }
         if(req.query.endDate){
@@ -175,8 +175,8 @@ router.get('/exercises',auth,async(req,res)=>{
             match["result.exercises.date.end"] = date
         }
         const result= await Visit.find(match).populate({path:"result.exercises.movement"})
-        console.log("result ="+JSON.stringify(result,null,2))
-        res.send({result,match})
+        // console.log("result ="+JSON.stringify(result,null,2))
+        res.send(result)
     } catch (error) {
         res.status(500).send(consts.CreateError(req.error,4000051,"some thing happened during get visits in exersie route",error))
     }
