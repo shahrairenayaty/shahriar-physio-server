@@ -121,15 +121,17 @@ VisitSchema.methods.toJSON = function () {
   visitObject.result.exercises.forEach(exercise => {
     // console.log("exercise movement.video= " + JSON.stringify(exercise, null, 2))
     const recordvoices=[]
-    console.log("exerscie= "+JSON.stringify(exercise,null,2))
+    
     exercise.voices.forEach(element => {
       if (element.status == true) {
+        console.log("1= "+JSON.stringify(element,null,2))
         recordvoices.push(element.name)
       }
     });
     delete exercise.voices
     exercise.voices = recordvoices
     if (exercise.movement.name===undefined) {
+      console.log("2= "+JSON.stringify(element,null,2))
       return visitObject
     }
     const videos = []
@@ -137,16 +139,19 @@ VisitSchema.methods.toJSON = function () {
     const pics = []
     exercise.movement.videos.forEach(element => {
       if (element.status == true) {
+        console.log("3= "+JSON.stringify(element,null,2))
         videos.push(element.name)
       }
     });
     exercise.movement.pics.forEach(element => {
       if (element.status == true) {
+        console.log("4= "+JSON.stringify(element,null,2))
         pics.push(element.name)
       }
     });
     exercise.movement.voices.forEach(element => {
       if (element.status == true) {
+        console.log("5= "+JSON.stringify(element,null,2))
         voices.push(element.name)
       }
     });
