@@ -175,6 +175,7 @@ router.get('/exercises',auth,async(req,res)=>{
             match["result.exercises.date.end"] = date
         }
         const result= await Visit.find(match) 
+        console.log("result ="+JSON.stringify(result,null,2))
         res.send({result,match})
     } catch (error) {
         res.status(500).send(consts.CreateError(req.error,4000051,"some thing happened during get visits in exersie route",error))

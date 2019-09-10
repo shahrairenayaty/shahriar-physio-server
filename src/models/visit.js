@@ -134,6 +134,7 @@ VisitSchema.methods.toJSON = function () {
       console.log("2= "+JSON.stringify(element,null,2))
       return visitObject
     }
+    console.log("yes")
     const videos = []
     const voices = []
     const pics = []
@@ -143,19 +144,21 @@ VisitSchema.methods.toJSON = function () {
         videos.push(element.name)
       }
     });
+    console.log("yess")
     exercise.movement.pics.forEach(element => {
       if (element.status == true) {
         console.log("4= "+JSON.stringify(element,null,2))
         pics.push(element.name)
       }
     });
+    console.log("yesss")
     exercise.movement.voices.forEach(element => {
       if (element.status == true) {
         console.log("5= "+JSON.stringify(element,null,2))
         voices.push(element.name)
       }
     });
-
+    console.log("yesss")
     delete exercise.movement.videos
     delete exercise.movement.pics
     delete exercise.movement.voices
@@ -163,7 +166,7 @@ VisitSchema.methods.toJSON = function () {
     exercise.movement.videos = videos
     exercise.movement.pics = pics
     exercise.movement.voices = voices
-    // console.log("exercise movement.video= " + JSON.stringify(exercise.movement, null, 2))
+    console.log("exercise movement.video= " + JSON.stringify(exercise.movement, null, 2))
     // finalResult.push(resultObject)
 
 
