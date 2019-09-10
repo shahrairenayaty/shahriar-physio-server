@@ -166,7 +166,7 @@ router.get('/exercises',auth,async(req,res)=>{
             }
             if(req.query.startDateEnd){
                 date["$lte"] = req.query.startDateEnd
-            }
+            }git 
             match["result.exercises.date.start"] = date
         }
         if(req.query.endDate){
@@ -174,7 +174,7 @@ router.get('/exercises',auth,async(req,res)=>{
             date["$lt"] = req.query.endDate
             match["result.exercises.date.end"] = date
         }
-        const result= await Visit.find(match) 
+        const result= await Visit.find(match).populate({path:"result.exercises.movement"})
         console.log("result ="+JSON.stringify(result,null,2))
         res.send({result,match})
     } catch (error) {
