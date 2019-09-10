@@ -20,6 +20,7 @@ router.post('/visits',auth,access(0b01100),async (req,res)=>{
     try {
         const visit = new Visits()
         visit.physio = req.user._id;
+        //todo:check to validation patient id
         visit.patient = req.body.patientId;
         await visit.save() 
         res.send(visit)
