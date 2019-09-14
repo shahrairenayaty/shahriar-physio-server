@@ -36,7 +36,7 @@ const auth = async (req,res,next)=>{
         next()
         // console.log(token)
     } catch (error) {
-        return res.status(500).send(consts.CreateError(req.error,4000010,"something is happanded during auth",error))
+        return res.status(500).send(consts.CreateError(req.error,4000010,"something is happanded during auth",error,"لطفا از حساب کاربری خود خارج شده و دوباره وارد برنامه شوید.","please sing out and login again."))
     }
 }
 

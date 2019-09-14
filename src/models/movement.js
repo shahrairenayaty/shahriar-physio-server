@@ -18,7 +18,7 @@ const MovementSchema = new Schema({
     desForPatient: {
         type: String
     },
-    persionDesForPatient: {
+    persianDesForPatient: {
         type: String
     },
     desForPhysio: {

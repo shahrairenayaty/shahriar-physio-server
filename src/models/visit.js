@@ -140,7 +140,6 @@ VisitSchema.methods.toJSON = function () {
     const pics = []
     exercise.movement.videos.forEach(element => {
       if (element.status == true) {
-        console.log("3= "+JSON.stringify(element,null,2))
         videos.push(element.name)
       }
     });
@@ -154,7 +153,6 @@ VisitSchema.methods.toJSON = function () {
     // console.log("yesss")
     exercise.movement.voices.forEach(element => {
       if (element.status == true) {
-        console.log("5= "+JSON.stringify(element,null,2))
         voices.push(element.name)
       }
     });
