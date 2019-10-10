@@ -21,10 +21,7 @@ app.use(bodyParser.urlencoded({
 app.use((req, res, next) => {
     // console.log(JSON.stringify(req.originalUrl,undefined,2));
     console.log(JSON.stringify(req.headers, undefined, 2));
-
     next()
-
-
 })
 // app.use("/upload",express.static(__dirname+"/upload"))
 app.use(personRouter)

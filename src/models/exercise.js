@@ -14,7 +14,7 @@ const ExerciseSchema = new Schema({
     },
     end: {
       type: Date,
-      default: Date.now() + 86400000
+      default: Date.now() + (1*24*60*60*1000)
     }
   },
   number: {

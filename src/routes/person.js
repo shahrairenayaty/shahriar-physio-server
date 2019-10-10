@@ -27,9 +27,25 @@ const Person = require('../../models/person')
 //     }
 // })
 
+router.post('/users',auth,type,access,async(req,res)=>{
+    try {
+        const user = await Person.findOne({idNation:req.body.idNation}).select({name:1,family:1,idNation:1,mobiles:1,address:1,birthday:1,Permissions:1})
+        if(!user)
+            return res.status(200).send({code:0,message:{ir:"کاربری با این مشخصات وجود ندارد",en:"There isn't user with this informations."},user})
+        // console.log(JSON.stringify(user,undefined,2))
+        console.log(user.Permissions)
+        if(user.Permissions[req.type].status===true)
+            return res.status(200).send({code:1,message:{ir:"کاربری با این مشخصات وجود دارد",en:"There is user with this informations."}})
 
+        user.Permissions= undefined;
+        return res.status(200).send({code:2,message:{ir:"کاربری با این مشخصات وجود دارد",en:"There is user with this informations."},user})    
+    } catch (error) {
+        return res.status(500).send(consts.CreateError(req.error,4000056,"some thing happened during check id nation",error))
+    }
+    
+})
 
-router.post('/users',auth,type,access,myValidator.createUser,ifExist,async (req, res) => {
+router.post('/users/create',auth,type,access,myValidator.createUser,myValidator.checkPhoneNumberDuplicated,async (req, res) => {
     // req.type;
     try {
         const user = new Person(req.body);
@@ -52,6 +68,44 @@ router.post('/users',auth,type,access,myValidator.createUser,ifExist,async (req,
         res.status(400).send(consts.CreateError(req.error,4000002,"an error occur during person creating",error))
     }
 })
+router.post('/users/updatePermission',auth,type,access,async (req, res) => {
+    // req.type;
+    try {
+        const user = await Person.findOne({idNation: req.body.idNation})
+        if (!user) {
+            return res.status(400).send(consts.CreateError(
+                req.error,
+                4000059,
+                "there isn't a user with this id nation."
+                )
+)
+        }
+        var query = {}
+        query["Permissions."+req.type+".status"] = true;
+        query["Permissions."+req.type+".registryDate"] = Date.now()
+        
+        // console.log(JSON.stringify(user,undefined,2))
+        if(user.Permissions[req.type].status===true){
+            return res.status(400).send(consts.CreateError(
+                                                        req.error,
+                                                        4000060,
+                                                        "user have this permission"
+                                                        ))
+        }
+        const newPermission = await Person.findOneAndUpdate(
+        {
+            idNation: user.idNation
+        },{"$set": query}
+           ,{
+            runValidators: true,
+            new: true
+        }).select({name:1,family:1,idNation:1,mobiles:1,address:1,birthday:1})
+        return res.status(201).send(newPermission)
+    } catch (error) {
+        return res.status(400).send(consts.CreateError(req.error,4000061,"some thing happened durring updateing permission of exist user",error))
+    }
+})
+
 
 router.post('/users/login',type,async(req,res)=>{
 try{
@@ -60,7 +114,7 @@ try{
     }
     const number = (req.body.number)
     const user = await Person.findOne({"mobiles.number":number})
-    // console.log(user)
+    console.log(JSON.stringify(user,undefined,2))
     if(!user||(user.password!==req.body.password)||user.Permissions[req.type].status==false){
         return res.status(400).send(consts.CreateError(req.error,4000006,"number or passwrod is wrong",undefined,"شماره موبایل یا پسورد اشتباه است.","phone number or password is wrong."))
     }
@@ -152,7 +206,9 @@ router.get('/users',auth,async (req,res)=>{
         res.status(500).send(consts.CreateError(req.error,4000052,"some thing happened during get person that match with query",error))
     }
 })
-
+/** 
+ * type: defind type of user you want to create
+*/
 
 
 

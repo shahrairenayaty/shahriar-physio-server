@@ -50,11 +50,11 @@ router.post('/movements/videos/:id', auth, myValidator.movementId, myValidator.m
             name: req.file.filename
         })
     } catch (error) {
-        res.status(400).send(consts.CreateError(req.error, 4000020, 'some thing happened durring updating video of movement', error))
+        return res.status(400).send(consts.CreateError(req.error, 4000020, 'some thing happened durring updating video of movement', error))
     }
 
 }, (error, req, res, next) => {
-    res.status(500).send(consts.CreateError(req.error, 4000019, 'some thing happened durring video upload', error))
+    return res.status(500).send(consts.CreateError(req.error, 4000019, 'some thing happened durring video upload', error))
 })
 
 router.get('/movements/videos/:name', auth, async function (req, res) {
@@ -72,7 +72,7 @@ router.get('/movements/videos/:name', auth, async function (req, res) {
             if (error) return res.status(400).send(consts.CreateError(req.error, 4000020, 'some thing happened during download videos', error))
         });
     } catch (error) {
-        res.status(400).send(consts.CreateError(req.error, 4000020, 'some thing happened during download videos', error))
+       return res.status(400).send(consts.CreateError(req.error, 4000020, 'some thing happened during download videos', error))
     }
 });
 router.delete('/movements/videos/:name', auth, access(0b01000), async (req, res) => {

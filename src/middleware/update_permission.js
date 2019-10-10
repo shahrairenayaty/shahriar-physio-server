@@ -5,11 +5,7 @@ const updatePermissionOfExitUser = async (req, res, next) => {
     
     try {
         const user = await Person.findOne({
-            $or: [{
-                "mobiles.number": {
-                    "$in": req.numbers
-                }
-            }, 
+            $or: [
             {
                 idNation: req.body.idNation
             }]

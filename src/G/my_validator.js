@@ -23,10 +23,9 @@ const createUser = (req, res, next) => {
         req.numbers = numbers
         if (numbers.length !== numbersSet.size) {
             return res.status(400).send(consts.CreateError(req.error, 4000003, "duplicate phone number",undefined,"شماره تماس تکراری است","duplicate number"))
-
         }
         if (title.length !== titleSet.size) {
-            return res.status(400).send(consts.CreateError(req.error, 4000004, "duplicate phone title"))
+            return res.status(400).send(consts.CreateError(req.error, 4000004, "duplicate phone title",undefined,"عناوین تلفن یکسان است.","duplicate title phone"))
         }
 
         return next();
@@ -34,6 +33,29 @@ const createUser = (req, res, next) => {
         return res.status(400).send(consts.CreateError(req.error, 4000013, "some thing happened durring creating user phone number", error))
     }
 
+}
+
+const checkPhoneNumberDuplicated = async (req, res, next) => {
+    // console.log("numbers= "+req.numbers)
+    try {
+        var number = undefined;
+        const promises = req.numbers.map (async n => {
+            const user = await Person.findOne({"mobiles.number":n})
+            if (user) {
+                number = n
+            }
+        });
+        await Promise.all(promises)
+        // console.log(number)
+        if(number!==undefined){
+            return res.status(400).send(consts.CreateError(req.error, 4000057, "duplicate phone number",undefined,"این شماره"+number+" متعلق به کاربر دیگری است.","this Number "+number+" belong to another user."))
+        }else{
+            next()
+        }
+       
+    } catch (error) {
+        return res.status(400).send(consts.CreateError(req.error,4000058,"some thing happened durring checking duplicate phone number",error))
+    }
 }
 
 const movementId = async (req, res, next) => {
@@ -246,17 +268,17 @@ const checkDate = async (req, res, next) => {
         const nowDate = Date.now()
         var endDate = 0
         if (req.visit) {
-            endDate = req.visit.dateOfVisit+(24*60*60*1000*3)
+            endDate = req.visit.dateOfVisit+(24*60*60*1000*3)//3day
         }
         if(req.exerciseDatabase){
             endDate = req.exerciseDatabase.date.end
         }
         if(nowDate>endDate){
-            throw new Error("it is late for do this action")
+            throw new Error("it is late for do this action. now date= "+nowDate+" endDate= "+endDate)
         }
         next() 
     } catch (error) {
-        res.status(500).send(consts.CreateError(req.error,4000047,'some thing happened during validation of date',error))
+        return res.status(500).send(consts.CreateError(req.error,4000047,'some thing happened during validation of date',error))
     }
     
 
@@ -272,6 +294,7 @@ module.exports = {
     exercise,
     exerciseId,
     checkDate,
-    voicesEx   
+    voicesEx,
+    checkPhoneNumberDuplicated   
 
 }
